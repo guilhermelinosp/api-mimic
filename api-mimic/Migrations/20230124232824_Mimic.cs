@@ -15,8 +15,7 @@ namespace apimimic.Migrations
                 name: "Words",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    id = table.Column<Guid>(type: "TEXT", nullable: false),
                     name = table.Column<string>(type: "TEXT", nullable: true),
                     score = table.Column<int>(type: "INTEGER", nullable: false),
                     active = table.Column<bool>(type: "INTEGER", nullable: false),

@@ -11,7 +11,7 @@ using api_mimic.Database;
 namespace apimimic.Migrations
 {
     [DbContext(typeof(MimicContext))]
-    [Migration("20230123134815_Mimic")]
+    [Migration("20230124232824_Mimic")]
     partial class Mimic
     {
         /// <inheritdoc />
@@ -22,9 +22,9 @@ namespace apimimic.Migrations
 
             modelBuilder.Entity("api_mimic.Models.Word", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("active")
                         .HasColumnType("INTEGER");

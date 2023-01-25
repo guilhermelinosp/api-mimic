@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 
 using api_mimic.Database;
 
@@ -19,11 +18,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+ 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseAuthorization(); 
 app.MapControllers();
-
 app.Run();
