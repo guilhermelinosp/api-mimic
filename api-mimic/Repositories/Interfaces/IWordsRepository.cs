@@ -19,8 +19,5 @@ namespace api_mimic.Repositories.Interfaces
         void Update(Word word);
 
         void Delete(Guid id);
-
-       
-
     }
 }
