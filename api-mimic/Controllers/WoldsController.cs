@@ -1,5 +1,5 @@
+using api_mimic.Database;
 using api_mimic.Models;
-using api_mimic.Repositories;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +9,23 @@ namespace api_mimic.Controllers
     [Route("api/v1/words")]
     public class WordsController : ControllerBase
     {  
-        private readonly WordsRepository _repository;
+        private readonly MimicContext _context;
 
-        public WordsController(WordsRepository repository)
+        public WordsController(MimicContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         [Route("")]
         [HttpGet]
         public ActionResult FindAll()
         {
-            return repository.FindAll();
+            var context = _context.Words;
+            if (context == null)
+            {
+                return NotFound();
+            }
+            return new JsonResult(context);
         }
 
         [Route("{id}")]
