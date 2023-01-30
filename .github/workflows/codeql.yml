@@ -4,11 +4,9 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    
     branches: [ "main" ]
   schedule:
-    - cron: '32 5 * * 5'
-
+    - cron:  '30 5 * * *'
 jobs:
   analyze:
     name: Analyze
@@ -17,17 +15,18 @@ jobs:
       actions: read
       contents: read
       security-events: write
+
     strategy:
       fail-fast: false
       matrix:
         language: [ 'csharp' ]
+        
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
-      
       with:
         languages: ${{ matrix.language }}
         
@@ -36,6 +35,5 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
-      
       with:
         category: "/language:${{matrix.language}}"
