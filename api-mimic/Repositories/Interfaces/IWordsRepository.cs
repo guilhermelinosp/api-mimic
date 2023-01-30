@@ -4,20 +4,13 @@ namespace api_mimic.Repositories.Interfaces
 {
     public interface IWordsRepository
     {
-        List<Word> FindAll();
-
-        List<Word> FindByDate(DateTime date);
-
-        List<Word> FindByActive(bool active);
-
-        Word Find(Guid id);
-
-        Word ActiveOrInactive(Guid id);
-
-        void Create(Word word);
-
-        void Update(Word word);
-
-        void Delete(Guid id);
+        public List<Word> FindAll();
+        public List<Word> FindByDate(DateTime date);
+        public List<Word> FindByActive(bool active);
+        public Word Find(Guid id);
+        public void ActiveOrInactive(Guid id);
+        public void Create(Word word);
+        public void Update(Guid id ,Word word);
+        public void Delete(Guid id);
     }
 }

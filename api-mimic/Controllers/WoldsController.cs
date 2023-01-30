@@ -1,5 +1,5 @@
-using api_mimic.Database;
 using api_mimic.Models;
+using api_mimic.Repositories;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +9,18 @@ namespace api_mimic.Controllers
     [Route("api/v1/words")]
     public class WordsController : ControllerBase
     {  
-        private readonly MimicContext _context;
+        private readonly WordsRepository _repository;
 
-        public WordsController(MimicContext context)
+        public WordsController(WordsRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [Route("")]
         [HttpGet]
         public ActionResult FindAll()
         {
-            return new JsonResult(_context.Words);
+            return repository.FindAll();
         }
 
         [Route("{id}")]
@@ -77,7 +77,7 @@ namespace api_mimic.Controllers
             word.updated = DateTime.Now;
             _context.Words.Add(word);
             _context.SaveChanges();
-            return new JsonResult(word);
+            return Ok();
         }
         
 
@@ -99,9 +99,23 @@ namespace api_mimic.Controllers
             context.active = word.active;
             context.updated = DateTime.Now;
             _context.SaveChanges();
-            return new JsonResult(context);
+            return Ok();
         }
-        
+
+        [Route("{id}")]
+        [HttpDelete]
+        public ActionResult Delete(Guid id)
+        {
+            var context = _context.Words.FirstOrDefault(x => x.id == id);
+            if (context == null)
+            {
+                return NotFound();
+            }
+            _context.Words.Remove(context);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
         [Route("{id}")]
         [HttpPatch]
         public ActionResult ActiveOrInactive(Guid id)
@@ -122,21 +136,7 @@ namespace api_mimic.Controllers
             }
 
             _context.SaveChanges();
-            return new JsonResult(context);
+            return Ok();
         }        
-
-        [Route("{id}")]
-        [HttpDelete]
-        public ActionResult Delete(Guid id)
-        {
-            var context = _context.Words.FirstOrDefault(x => x.id == id);
-            if (context == null)
-            {
-                return NotFound();
-            }
-            _context.Words.Remove(context);
-            _context.SaveChanges();
-            return NoContent();
-        }
     }
 }

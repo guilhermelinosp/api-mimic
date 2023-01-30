@@ -6,5 +6,6 @@ namespace api_mimic.Models {
         public bool active { get; set; }
         public DateTime created { get; set; }
         public DateTime updated { get; set; }
+        public object Words { get; internal set; }
     }
 }
