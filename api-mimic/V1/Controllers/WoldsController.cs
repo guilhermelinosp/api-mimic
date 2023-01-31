@@ -1,14 +1,15 @@
 using api_mimic.Database;
-using api_mimic.Models;
+using api_mimic.V1.Models;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace api_mimic.Controllers
+namespace api_mimic.V1.Controllers
 {
     [ApiController]
+    [ApiVersion("1.0")]
     [Route("api/v1/words")]
     public class WordsController : ControllerBase
-    {  
+    {
         private readonly MimicContext _context;
 
         public WordsController(MimicContext context)
@@ -78,13 +79,21 @@ namespace api_mimic.Controllers
             {
                 return BadRequest();
             }
+
+            if(!ModelState.IsValid)
+            {
+                return UnprocessableEntity(ModelState);
+            }
+
+            word.id = Guid.NewGuid();
+            word.active = true;
             word.created = DateTime.Now;
             word.updated = DateTime.Now;
             _context.Words.Add(word);
             _context.SaveChanges();
             return Ok();
         }
-        
+
 
         [Route("{id}")]
         [HttpPut]
@@ -95,13 +104,16 @@ namespace api_mimic.Controllers
             {
                 return NotFound();
             }
+            if(!ModelState.IsValid)
+            {
+                return UnprocessableEntity(ModelState);
+            }
             if (context.name == word.name)
             {
                 return BadRequest();
             }
             context.name = word.name;
             context.score = word.score;
-            context.active = word.active;
             context.updated = DateTime.Now;
             _context.SaveChanges();
             return Ok();
@@ -142,6 +154,6 @@ namespace api_mimic.Controllers
 
             _context.SaveChanges();
             return Ok();
-        }        
+        }
     }
 }

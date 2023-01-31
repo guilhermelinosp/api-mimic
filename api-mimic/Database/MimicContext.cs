@@ -1,4 +1,4 @@
-using api_mimic.Models;
+using api_mimic.V1.Models;
 using Microsoft.EntityFrameworkCore;
 namespace api_mimic.Database
 {
